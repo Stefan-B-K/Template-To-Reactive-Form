@@ -1,0 +1,242 @@
+<div class="card">
+    <div class="card-header">
+        Sign Up!
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="customerForm" (ngSubmit)="save()" novalidate>
+
+            <div class="form-group row mb-2">
+                <label for="firstName" class="col-md-2 col-form-label">
+                    First Name *</label>
+                <div class="col-md-8">
+                    <input formControlName="firstName"
+                           (blur)="errorMessages(fc.firstName, 'firstName')"
+                           type="text" id="firstName" class="form-control"
+                           [ngClass]="{ 'is-invalid': formMessages.firstName }"
+                    />
+                    <span *ngIf="formMessages.firstName" class="invalid-feedback">
+                        {{ formMessages.firstName }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label for="lastName" class="col-md-2 col-form-label">
+                    Last Name *</label>
+                <div class="col-md-8">
+                    <input formControlName="lastName"
+                           (blur)="errorMessages(fc.lastName, 'lastName')"
+                           type="text" id="lastName" class="form-control"
+                           [ngClass]="{ 'is-invalid': formMessages.lastName }"
+                    />
+                    <span *ngIf="formMessages.lastName" class="invalid-feedback">
+                        {{ formMessages.lastName }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label for="email" class="col-md-2 col-form-label">
+                    Email *</label>
+                <div class="col-md-8">
+                    <input formControlName="email"
+                           (blur)="errorMessages(fc.email, 'email')"
+                           type="email" id="email" class="form-control"
+                           [ngClass]="{'is-invalid': formMessages.email || formMessages.matchEmails }"
+                    />
+                    <span *ngIf="formMessages.email" class="invalid-feedback">
+                        {{ formMessages.email }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label for="confirmEmail" class="col-md-2 col-form-label">
+                    Confirm Email *</label>
+                <div class="col-md-8">
+                    <input formControlName="confirmEmail"
+                           (blur)="errorMessages(fc.confirmEmail, 'confirmEmail', messageEmailMatch)"
+                           type="email" id="confirmEmail" class="form-control"
+                           [ngClass]="{ 'is-invalid': formMessages.confirmEmail }"
+                    />
+                    <span *ngIf="formMessages.confirmEmail" class="invalid-feedback">
+                        {{ formMessages.confirmEmail }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label for="phone" class="col-md-2 col-form-label">
+                    Phone</label>
+                <div class="col-md-8">
+                    <input formControlName="phone"
+                           (blur)="errorMessages(fc.phone, 'phone')"
+                           type="tel" id="phone" mask="(000)-000-0000" placeholder="(000)-000-0000"
+                           [ngClass]="{ 'is-invalid': formMessages.phone }" class="form-control"
+                    />
+                    <span *ngIf="formMessages.phone" class="invalid-feedback">
+                        {{ formMessages.phone }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label pt-0">Send Notifications</label>
+                <div class="col-md-8">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input formControlName="notification" type="radio"
+                                   value="email" class="form-check-input"
+                            />Email
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input formControlName="notification" type="radio"
+                                   value="text" class="form-check-input"
+                            />Text
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label for="rating" class="col-md-2 col-form-label">
+                    Rating</label>
+                <div class="col-md-8">
+                    <input formControlName="rating"
+                           (blur)="errorMessages(fc.rating, 'rating')"
+                           type="number" id="rating" class="form-control"
+                           [ngClass]="{ 'is-invalid': formMessages.rating }"
+                    />
+                    <span *ngIf="formMessages.rating" class="invalid-feedback">
+                        {{ formMessages.rating }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <div class="col-md-8">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input formControlName="sendCatalog"
+                                   type="checkbox" class="form-check-input"
+                            />Send me your catalog
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="fc.sendCatalog.value">
+                <div formArrayName="addresses"
+                     *ngFor="let address of fc.addresses.controls; let i = index">
+                    <div [formGroupName]="i">
+                        <div class="form-group row mb-2">
+                            <label class="col-md-2 col-form-label pt-0">
+                                Address Type</label>
+                            <div class="col-md-8">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input formControlName="addressType" type="radio"
+                                               value="home" class="form-check-input"
+                                        /> Home
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input formControlName="addressType" type="radio"
+                                               value="work" class="form-check-input"
+                                        /> Work
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input formControlName="addressType" type="radio"
+                                               value="other" class="form-check-input"
+                                        /> Other
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <label for="{{ 'street1' + i }}" class="col-md-2 col-form-label">
+                                Street Address 1</label>
+                            <div class="col-md-8">
+                                <input formControlName="street1"
+                                       type="text" id="{{ 'street1' + i }}" class="form-control"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <label for="{{ 'street2' + i }}" class="col-md-2 col-form-label">
+                                Street Address 2</label>
+                            <div class="col-md-8">
+                                <input formControlName="street2"
+                                       type="text" id="{{ 'street2' + i }}" class="form-control"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <label for="{{ 'city' + i }}" class="col-md-2 col-form-label">City, State, Zip Code</label>
+                            <div class="col-md-3">
+                                <input formControlName="city"
+                                       type="text" id="{{ 'city' + i }}" class="form-control"
+                                />
+                            </div>
+                            <div class="col-md-3">
+                                <select formControlName="state" class="form-control">
+                                    <option value="" disabled selected hidden>Select a State...</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input formControlName="zip"
+                                       type="number" class="form-control"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-2">
+                    <div class="col-md-4">
+                        <button [disabled]="!fc.addresses.valid"  (click)="addAddress()"
+                                type="button" class="btn btn-outline-primary">
+                            Add Another Address
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row mb-2">
+                <div class="offset-md-2 col-md-4">
+                    <button [disabled]="!customerForm.valid"
+                            type="submit"
+                            class="btn btn-primary mr-3"
+                            style="width:80px"
+                            [title]="customerForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br>Dirty: {{ customerForm.dirty }}
+<br>Touched: {{ customerForm.touched }}
+<br>Form Valid: {{ customerForm.valid }}
+<br>Value: {{ customerForm.value | json }}
+<br>Form Errors: {{ customerForm.errors | json }}
+<br>match: {{ formMessages.email }}
